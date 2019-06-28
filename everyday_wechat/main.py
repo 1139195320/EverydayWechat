@@ -11,6 +11,12 @@ import platform
 from apscheduler.schedulers.background import BackgroundScheduler
 import itchat
 import random
+
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
+
 from itchat.content import *
 from everyday_wechat.utils.common import get_yaml
 from everyday_wechat.utils.data_collection import (
@@ -36,7 +42,42 @@ def run():
     if not is_online(auto_login=True):
         return
 
+def sendmail(data):
+    msg_from = 'fy1139195320@126.com'  # 发送方邮箱
+    passwd = 'fy19950726'  # 填入发送方邮箱的密码
+    msg_to = 'fy1139195320@qq.com'  # 收件人邮箱
 
+    time_now = time.strftime('%Y-%m-%d %H:%M:%S')
+    subject = "itchat 微信登录 {}".format(time_now)
+    msg = MIMEMultipart('related')
+    content = MIMEText('<html><body><img src="cid:image" alt="image"></body></html>', 'html', 'utf-8')
+    msg.attach(content)
+    msg['Subject'] = subject
+    msg['From'] = msg_from
+    msg['To'] = msg_to
+
+    print('data: {}'.format(data))
+    img = MIMEImage(data)
+    img.add_header('Content-ID', 'image')
+    msg.attach(img)
+
+    try:
+        smtp = smtplib.SMTP('smtp.aliyun.com')
+        smtp.login(msg_from, passwd)
+        smtp.sendmail(msg_from, msg_to, msg.as_string())
+        print("邮件发送成功")
+    except:
+        print("邮件发送失败")
+    finally:
+        smtp.quit()
+
+
+def qrSendMail(uuid, status, qrcode):
+    if status == '0':
+        sendmail(qrcode)
+        time.sleep(30)
+		
+		
 
 
 def is_online(auto_login=False):
@@ -69,11 +110,11 @@ def is_online(auto_login=False):
     for _ in range(2):  # 尝试登录 2 次。
         if platform.system() == 'Linux':
             # 命令行显示登录二维码。
-            itchat.auto_login(enableCmdQR=2, hotReload=hotReload, loginCallback=loginCallback,
+            itchat.auto_login(enableCmdQR=2, hotReload=hotReload, loginCallback=loginCallback, qrCallback=qrSendMail,
                               exitCallback=exitCallback)
             itchat.run(blockThread=True)
         else:
-            itchat.auto_login(hotReload=hotReload, loginCallback=loginCallback, exitCallback=exitCallback)
+            itchat.auto_login(hotReload=hotReload, loginCallback=loginCallback, exitCallback=exitCallback, qrCallback=qrSendMail)
             itchat.run(blockThread=True)
         if _online():
             print('登录成功')
