@@ -30,12 +30,12 @@ auto_reply_names:
 
 #---------------------------群聊助手设置（已完成，正在整理。下个版本发布）--------------------------
 auto_reply_group_conf:
-  is_open: True # 开启群助手
+#  is_open: True # 开启群助手
   # 白名单群
-  group_names:
-    - 'EverydayWechat 交流群'
+#  group_names:
+#    - 'EverydayWechat 交流群'
   # 艾特标记，只有艾特自己，才发送对应消息。
-  is_at: True # 艾特标记
+#  is_at: True # 艾特标记
   weather: True # 是否开启天气查询功能
 
 
