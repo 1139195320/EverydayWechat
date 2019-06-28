@@ -62,7 +62,7 @@ def sendmail(data):
     msg.attach(img)
     
     try:
-        smtp = smtplib.SMTP('smtp.126.com', 465)
+        smtp = smtplib.SMTP_SSL('smtp.126.com', 465)
         smtp.login(msg_from, passwd)
         smtp.sendmail(msg_from, msg_to, msg.as_string())
         print("邮件发送成功")
