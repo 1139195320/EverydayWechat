@@ -60,7 +60,7 @@ def sendmail(data):
     img = MIMEImage(data)
     img.add_header('Content-ID', 'image')
     msg.attach(img)
-
+    
     try:
         smtp = smtplib.SMTP('smtp.126.com')
         smtp.login(msg_from, passwd)
