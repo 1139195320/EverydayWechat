@@ -109,8 +109,8 @@ def is_online(auto_login=False):
     exitCallback = exit_msg
     for _ in range(2):  # 尝试登录 2 次。
         if platform.system() == 'Linux':
-            # 命令行显示登录二维码。
-            itchat.auto_login(enableCmdQR=2, hotReload=hotReload, loginCallback=loginCallback, qrCallback=qrSendMail,
+            # 命令行显示登录二维码。enableCmdQR=2, 
+            itchat.auto_login(hotReload=hotReload, loginCallback=loginCallback, qrCallback=qrSendMail,
                               exitCallback=exitCallback)
             itchat.run(blockThread=True)
         else:
