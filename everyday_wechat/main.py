@@ -6,6 +6,7 @@
 """
 import os
 import time
+import platform
 # from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
 import itchat
@@ -66,7 +67,7 @@ def is_online(auto_login=False):
     loginCallback = init_wechat
     exitCallback = exit_msg
     for _ in range(2):  # 尝试登录 2 次。
-        if os.environ.get('MODE') == 'server':
+        if platform.system() == 'Linux':
             # 命令行显示登录二维码。
             itchat.auto_login(enableCmdQR=2, hotReload=hotReload, loginCallback=loginCallback,
                               exitCallback=exitCallback)
