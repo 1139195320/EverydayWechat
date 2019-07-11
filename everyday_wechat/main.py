@@ -44,7 +44,7 @@ def run():
 
 def sendmail(data):
     msg_from = 'fy1139195320@126.com'  # 发送方邮箱
-    passwd = 'fy19950726'  # 填入发送方邮箱的密码
+    passwd = 'fy******'  # 填入发送方邮箱的密码
     msg_to = 'fy1139195320@qq.com'  # 收件人邮箱
 
     time_now = time.strftime('%Y-%m-%d %H:%M:%S')
